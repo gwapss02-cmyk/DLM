@@ -571,6 +571,11 @@
         submitBtn.textContent = originalBtnText;
       });
   });
+  fetch('http://localhost:8080/api/inquiries', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ name, company, email, phone, service, message })
+})
 </script>
 
 </body>
