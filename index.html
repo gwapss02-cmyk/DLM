@@ -44,7 +44,7 @@
   .logo {
     display: flex; align-items: center; gap: 12px;
     font-family: Georgia, serif; font-size: 20px; color: var(--navy);
-    letter-spacing: 0.3px;
+    letter-spacing: 0.3px; order: 1;
   }
   .logo img { height: 48px; width: auto; display: block; }
   .logo .logo-text { display: flex; flex-direction: column; line-height: 1.25; }
@@ -53,13 +53,24 @@
     font-family: 'Segoe UI', sans-serif; font-size: 11px; letter-spacing: 1px;
     color: var(--gold); text-transform: uppercase;
   }
-  .nav-links { display: flex; gap: 32px; font-size: 14px; color: var(--slate); }
+  .nav-links { display: flex; gap: 32px; font-size: 14px; color: var(--slate); order: 2; }
   .nav-links a:hover { color: var(--navy); }
   .nav-cta {
     background: var(--navy); color: var(--white); padding: 10px 22px;
-    border-radius: 3px; font-size: 14px;
+    border-radius: 3px; font-size: 14px; white-space: nowrap; order: 3;
   }
   .nav-cta:hover { background: var(--navy-deep); }
+  .nav-toggle {
+    display: none; background: none; border: none; cursor: pointer;
+    padding: 6px; margin-left: 8px; flex-shrink: 0; order: 4;
+  }
+  .nav-toggle span {
+    display: block; width: 22px; height: 2px; background: var(--navy);
+    margin: 5px 0; transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
   /* Hero */
   .hero {
@@ -76,15 +87,15 @@
     border: 1px solid rgba(201,169,104,0.25);
     border-radius: 50%;
   }
-  .hero-inner { max-width: 620px; position: relative; }
+  .hero-inner { max-width: 860px; position: relative; }
   .eyebrow {
     color: var(--gold-light); font-size: 13px; letter-spacing: 2px;
     text-transform: uppercase; margin-bottom: 18px; display: block;
   }
   .hero h1 {
-    color: var(--white); font-size: 42px; line-height: 1.25; margin-bottom: 18px;
+    color: var(--white); font-size: 52px; line-height: 1.25; margin-bottom: 20px;
   }
-  .hero p { font-size: 16px; color: #C7CDDB; margin-bottom: 32px; max-width: 520px; }
+  .hero p { font-size: 17px; color: #C7CDDB; margin-bottom: 32px; max-width: 700px; }
   .btn-row { display: flex; gap: 14px; flex-wrap: wrap; }
   .btn-primary {
     background: var(--gold); color: var(--white); padding: 13px 28px;
@@ -206,6 +217,58 @@
   .form-success h3 { font-size: 19px; margin-bottom: 8px; }
   .form-success p { font-size: 14px; color: var(--slate-light); }
 
+  /* Responsive */
+  @media (max-width: 760px) {
+    .wrap { padding: 0 18px; }
+
+    .nav { padding: 14px 0; flex-wrap: wrap; }
+    .nav-toggle { display: block; order: 2; }
+    .logo { order: 1; }
+    .nav-cta { order: 3; padding: 9px 16px; font-size: 13px; }
+    .nav-links {
+      order: 4;
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      gap: 0;
+      background: var(--white);
+      border-top: 1px solid var(--border);
+      margin-top: 14px;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links a { padding: 14px 4px; border-bottom: 1px solid var(--border); font-size: 15px; }
+
+    .hero { padding: 56px 0 64px; }
+    .hero h1 { font-size: 28px; line-height: 1.3; }
+    .hero p { font-size: 15px; }
+    .btn-row { flex-direction: column; align-items: stretch; }
+    .btn-primary, .btn-secondary { text-align: center; }
+
+    section { padding: 48px 0; }
+    .section-title { font-size: 24px; }
+    .section-intro { font-size: 14px; margin-bottom: 32px; }
+
+    .services-grid { grid-template-columns: 1fr; }
+
+    .why-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .stat .figure { font-size: 28px; }
+
+    .process-item { gap: 14px; }
+
+    .contact-grid { gap: 32px; }
+    form { padding: 24px 20px; }
+
+    .footer-inner { flex-direction: column; text-align: center; gap: 14px; }
+  }
+
+  @media (max-width: 420px) {
+    .logo img { height: 38px; }
+    .logo .logo-text .lt-main { font-size: 16px; }
+    .logo .logo-text .lt-sub { font-size: 9px; }
+    .hero h1 { font-size: 24px; }
+    .why-grid { grid-template-columns: 1fr; gap: 20px; }
+  }
+
   /* Footer */
   footer {
     background: var(--navy-deep); color: #9AA3BC; padding: 32px 0; font-size: 13px;
@@ -225,12 +288,15 @@
         <span class="lt-sub">Tax & Accounting Services</span>
       </span>
     </div>
-    <nav class="nav-links">
+    <a href="#inquiry" class="nav-cta">Request a consultation</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav-links" id="navLinks">
       <a href="#services">Services</a>
       <a href="#why">Why us</a>
       <a href="#process">How it works</a>
     </nav>
-    <a href="#inquiry" class="nav-cta">Request a consultation</a>
   </div>
 </header>
 
@@ -441,12 +507,31 @@
 </footer>
 
 <script>
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', function () {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.classList.toggle('open', isOpen);
+    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  navLinks.querySelectorAll('a').forEach(function (link) {
+    link.addEventListener('click', function () {
+      navLinks.classList.remove('open');
+      navToggle.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
   document.getElementById('inquiryForm').addEventListener('submit', function (e) {
     e.preventDefault();
     const name = document.getElementById('name').value.trim();
+    const company = document.getElementById('company').value.trim();
     const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
     const service = document.getElementById('service').value;
+    const message = document.getElementById('message').value.trim();
     const errorEl = document.getElementById('formError');
+    const submitBtn = document.querySelector('#inquiryForm button[type="submit"]');
 
     if (!name || !email || !service) {
       errorEl.textContent = 'Please fill in your name, email, and select a service before submitting.';
@@ -455,8 +540,29 @@
     }
     errorEl.style.display = 'none';
 
-    document.getElementById('formFields').style.display = 'none';
-    document.getElementById('formSuccess').classList.add('show');
+    const originalBtnText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+
+    fetch('http://localhost:8080/api/inquiries', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, company, email, phone, service, message })
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error('Request failed');
+        return res.json();
+      })
+      .then(function () {
+        document.getElementById('formFields').style.display = 'none';
+        document.getElementById('formSuccess').classList.add('show');
+      })
+      .catch(function () {
+        errorEl.textContent = 'Something went wrong sending your inquiry. Please try again in a moment.';
+        errorEl.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalBtnText;
+      });
   });
 </script>
 
